@@ -2,7 +2,7 @@
 #import "common/lib/slideLayouts.typ": theme, mainTitle, layoutA, layoutATwoCols, layoutATwoColsWithTitle, layoutBTwoCols, layoutC, layoutCTwoColsWithTitle, layoutDTwoCols
 
 #mainTitle(
-  title: "CSAI-353-Vault",
+  title: "CSDS-353-Vault",
   subtitle: "Jane Doe <jane.doe@example.com>",
   content: [
     #v(160pt)

@@ -72,7 +72,7 @@ vault-documentation:
     - export TYPST_FONT_PATHS=documentation/common/fonts
     - typst fonts
     - typst compile documentation/sink.typ output-assets/documentation/sink-${COMMIT_HASH}.pdf
-    - typst compile documentation/csai-353-vault.typ output-assets/documentation/csai-353-vault-${COMMIT_HASH}.pdf
+    - typst compile documentation/csds-353-vault.typ output-assets/documentation/csds-353-vault-${COMMIT_HASH}.pdf
   artifacts:
     paths:
       - output-assets/documentation/*.pdf

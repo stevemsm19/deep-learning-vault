@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-VENV_NAME?=venv1
+VENV_NAME?=venv
 VENV_ACTIVATE=. $(VENV_NAME)/bin/activate
 PYTHON=${VENV_NAME}/bin/python3.12
 
@@ -9,21 +9,21 @@ PYTHON=${VENV_NAME}/bin/python3.12
 
 .PHONY: help setup clean 
 
-# Color variables
+# Define color codes
 CYAN    := \033[36m
-RESET   := \033[0m
+NC='\033[0m' # No Color
 
 # Help: Displays available targets in the Makefile
 help:
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*? ## / {printf "$(CYAN)%-20s$(RESET) %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*? ## / {printf "$(CYAN)%-20s$(NC) %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 setup: ## Set up the Python virtual environment and install dependencies.
-	@echo -e "$(CYAN)Creating Python virtual environment...$(RESET)"
+	@echo -e "$(CYAN)Creating Python virtual environment...$(NC)"
 	@python3.12 -m venv $(VENV_NAME)
-	@echo -e "$(CYAN)Installing dependencies...$(RESET)"
+	@echo -e "$(CYAN)Installing dependencies...$(NC)"
 	
 
 clean: ## Remove the Python virtual environment and clean up installed packages
-	@echo "Deleting the Python virtual environment..."
+	@echo -e "$(CYAN)Deleting the Python virtual environment...$(NC)"
 	@rm -rf $(VENV_NAME)
-	@echo "Virtual environment and dependencies removed."
+	@echo -e "$(CYAN)Virtual environment and dependencies removed.$(NC)"
