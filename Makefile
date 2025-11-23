@@ -32,3 +32,6 @@ clean: ## Remove the Python virtual environment and clean up installed packages.
 	@echo -e "$(CYAN)Deleting the Python virtual environment...$(NC)"
 	@rm -rf $(VENV_NAME)
 	@echo -e "$(CYAN)Virtual environment and dependencies removed.$(NC)"
+
+run-backend: ## Run the FastAPI backend
+	@uvicorn src.app.backend.main:app --reload 
