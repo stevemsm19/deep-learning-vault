@@ -11,3 +11,9 @@ repos:
     rev: v1.18.2
     hooks:
       - id: mypy
+        additional_dependencies:
+        - pydantic
+        - fastapi
+        - uvicorn
+        - pillow
+        - ultralytics
