@@ -1,2 +1,10 @@
 nvidia-*
 sympy
+huggingface-hub
+langchain-*
+opencv-python
+posthog
+pydantic_core
+starlette
+triton
+urllib3
