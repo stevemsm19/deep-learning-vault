@@ -43,7 +43,7 @@
 #layoutC(
   title: "Introducción",
   content: [
-    
+
     #v(50pt)
     == ¿Sabías que?
 
@@ -124,7 +124,7 @@
 
         #v(50pt)
 
-        Además, mientras aprendes a manejar mejor tus finanzas y a moverte en el mundo digital, Finai te ofrece una función poderosa, *"la detección de billetes colombianos"*. 
+        Además, mientras aprendes a manejar mejor tus finanzas y a moverte en el mundo digital, Finai te ofrece una función poderosa, *"la detección de billetes colombianos"*.
       ]
     ])
   ]
@@ -171,7 +171,7 @@
           #align(center)[#image("images/capstone/colab_logo.png", width: 30%)]
           #align(center)[#image("images/capstone/roboflow_logo.png", width: 60%)]
           #align(center)[#image("images/capstone/yolo_logo.png", width: 70%)]
-          
+
         ],
       )
     ])

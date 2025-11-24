@@ -5,7 +5,7 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-files=$(find . -not -path "*/venv/*" -not -path "*/notebooks/*" -not -path "*/*.egg-info/*" \( -name "*.typ" -o -name "*.txt" -o -name "*.sh" -o -name "*.md" -o -name "*.yml" \))
+files=$(find . -not -path "*/venv/*" -not -path "*/notebooks/*" -not -path "*/*.egg-info/*" -not -path "*/src/data/*" \( -name "*.typ" -o -name "*.txt" -o -name "*.sh" -o -name "*.md" -o -name "*.yml" \))
 
 # Flag to track if we found any non-compliant files
 non_compliant=false
