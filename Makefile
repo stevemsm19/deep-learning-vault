@@ -33,5 +33,11 @@ clean: ## Remove the Python virtual environment and clean up installed packages.
 	@rm -rf $(VENV_NAME)
 	@echo -e "$(CYAN)Virtual environment and dependencies removed.$(NC)"
 
+typst-watch: ## Watches the csds-353-vault typst file and recompiles on changes
+	@typst w documentation/csds-353-vault.typ 
+	
+typst-compile: ## Compile the csds-353-vault typst file
+	@typst c documentation/csds-353-vault.typ 
+
 run-backend: ## Run the FastAPI backend
 	@uvicorn src.app.backend.main:app --reload 
