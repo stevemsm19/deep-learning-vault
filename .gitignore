@@ -224,5 +224,7 @@ pyrightconfig.json
 # Project
 classnotes/
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,linux,python
+# Training data
+data/
 
+# End of https://www.toptal.com/developers/gitignore/api/macos,linux,python
