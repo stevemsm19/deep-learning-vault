@@ -8,3 +8,5 @@ pydantic_core
 starlette
 triton
 urllib3
+pandas-stubs
+langsmith

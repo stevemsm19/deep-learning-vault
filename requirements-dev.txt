@@ -1,6 +1,6 @@
 black[jupyter]==25.11.0
-mypy==1.18.2
+mypy==1.19.0
 pipdeptree==2.30.0
 pytest==9.0.1
-types-seaborn==0.13.2.20250914
+types-seaborn==0.13.2.20251203
 pre-commit==4.5.0

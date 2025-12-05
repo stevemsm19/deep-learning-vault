@@ -78,4 +78,3 @@ The backend includes automatic interactive documentation:
 - ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 These pages allow you to explore all available endpoints, payloads, and responses.
-

@@ -60,21 +60,21 @@ This launches the MCP client and automatically spawns the server through stdio.
 
 ### Queries
 
-![alt text](images/query_1.png) 
-![alt text](images/query_2.png) 
+![alt text](images/query_1.png)
+![alt text](images/query_2.png)
 ![alt text](images/query_3.png)
 
 ### Logs
 
-![alt text](images/logs.png) 
+![alt text](images/logs.png)
 
 ### Resources
 
-![alt text](images/resources.png) 
+![alt text](images/resources.png)
 
 ### Tools
 
-![alt text](images/tools.png) 
+![alt text](images/tools.png)
 
 ### Prompts
 
@@ -91,7 +91,7 @@ In that sense, it’s not hard at all for the client to know what tools the serv
 # References
 
 - https://docs.astral.sh/uv
-https://modelcontextprotocol.io/docs/develop/build-server
-https://modelcontextprotocol.io/docs/develop/build-client
-https://github.com/modelcontextprotocol/python-sdk
-https://www.youtube.com/watch?v=Y4bpWRLdRoA
+- https://modelcontextprotocol.io/docs/develop/build-server
+- https://modelcontextprotocol.io/docs/develop/build-client
+- https://github.com/modelcontextprotocol/python-sdk
+- https://www.youtube.com/watch?v=Y4bpWRLdRoA
