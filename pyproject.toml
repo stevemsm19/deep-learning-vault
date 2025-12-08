@@ -23,7 +23,7 @@ dependencies = [
   "torchvision==0.24.1",
   "seaborn==0.13.2",
   "sentence-transformers==5.1.2",
-  "fastapi==0.123.9",
+  "fastapi==0.124.0",
   "uvicorn==0.38.0",
   "python-multipart==0.0.20",
   "pymupdf==1.26.6",
