@@ -1,7 +1,6 @@
 from app.backend.domain.repositories.vector_store_repository import (
     IVectorStore,
 )
-from app.backend.domain.interfaces.llm_interface import ILLM
 
 from app.backend.application.schemas.search import SearchRequest, SearchResponse
 

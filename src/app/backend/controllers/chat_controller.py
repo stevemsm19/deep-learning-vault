@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from app.backend.application.schemas.chat import ChatRequest, ChatResponse
 from app.backend.config.dependencies import get_mcp_client
 from app.backend.application.services.chat_service import ChatService
-from app.backend.infrastructure.mcp_client import MCPChatClient
+from app.backend.infrastructure.services.mcp_client import MCPChatClient
 
 
 router = APIRouter()
@@ -15,5 +15,5 @@ async def chat_endpoint(
     mcp_client: MCPChatClient = Depends(get_mcp_client),
 ) -> ChatResponse:
     service = ChatService(mcp_client)
-    reply = await service.process_message(request.message)
+    reply = await service.process_message(request)
     return ChatResponse(reply=reply)

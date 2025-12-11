@@ -1,6 +1,6 @@
 from app.backend.domain.interfaces.banknote_detection_interface import IObjectDetector
 
-from app.backend.application.schemas.schemas import DetectionResponse
+from app.backend.application.schemas.detection import DetectionResponse
 
 
 class CashDetectionService:
