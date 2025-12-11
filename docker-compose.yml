@@ -1,0 +1,12 @@
+services:
+  chroma:
+    image: chromadb/chroma
+    container_name: chromadb-capstone
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+
+volumes:
+  chroma_data:
