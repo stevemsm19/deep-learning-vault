@@ -31,13 +31,16 @@ dependencies = [
   "pydantic-settings==2.12.0",
   "langchain_chroma==0.2.6",
   "langchain_core==0.3.78",
-  "langchain-google-genai==2.1.12",
   "langchain_text_splitters==0.3.11",
   "langchain_huggingface==0.3.1",
   "google-genai==1.53.0",
   "ultralytics==8.3.235",
   "httpx>=0.28.1",
   "mcp[cli]>=1.23.1",
+  "httpx>=0.28.1",
+  "google-generativeai>=0.8.5",
+  "python-dotenv>=1.2.1",
+  "anthropic==0.75.0"
 ]
 
 [project.scripts]
@@ -48,3 +51,7 @@ python_version = "3.12"
 strict = true
 mypy_path = "src"
 explicit_package_bases = true
+exclude = [
+  "mcp-demo/",
+  "src/app/mcp",
+]
