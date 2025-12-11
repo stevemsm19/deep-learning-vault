@@ -15,5 +15,5 @@ async def chat_endpoint(
     mcp_client: MCPChatClient = Depends(get_mcp_client),
 ) -> ChatResponse:
     service = ChatService(mcp_client)
-    reply = await service.process_message(request)
+    reply = await service.process_query(request)
     return ChatResponse(reply=reply)

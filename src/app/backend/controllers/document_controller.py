@@ -18,15 +18,15 @@ async def add_document(
     document_service: DocumentService = Depends(get_document_service),
 ) -> AddDocumentsResponse:
 
-    document_file_dtos = []
+    document_files = []
     for f in files:
         if f.filename is None:
             raise HTTPException(status_code=400, detail="File must have a filename")
-        document_file_dtos.append(
+        document_files.append(
             DocumentFileRequest(filename=f.filename, content=await f.read())
         )
 
-    result_dto = await document_service.add_document_from_uploads(document_file_dtos)
+    result_dto = await document_service.add_document_from_uploads(document_files)
 
     return AddDocumentsResponse(
         total_pages=result_dto.total_pages, total_chunks=result_dto.total_chunks

@@ -59,20 +59,33 @@ class MCPClient:
         tools = response.tools
         print("\nConnected to server with tools:", [tool.name for tool in tools])
 
-    async def process_query(self, query: str) -> str:
-        """Process a query using Claude and available tools"""
+    async def process_query(
+        self, query: str, num_results: int, similarity_threshold: float
+    ) -> str:
+        """Process a query using Claude and available tools
 
-        system_prompt = """Eres un asistente especializado que ÚNICAMENTE responde basándose en el contexto proporcionado por las herramientas disponibles.
-
-        REGLAS ESTRICTAS:
-        1. Solo usa la información que te proporcionen las herramientas para responder
-        2. NO uses tu conocimiento previo o entrenamiento para responder preguntas
-        3. Si no se usa ninguna herramienta, responde: "No tengo herramientas disponibles para responder esa pregunta"
-        4. Si la herramienta no proporciona información suficiente, di: "No tengo suficiente información en el contexto proporcionado para responder"
-        5. Siempre termina tu respuesta con "¡Gracias por preguntar!"
-
-        Recuerda: Tu única fuente de verdad es el contexto que te proporcionan las herramientas.
+        Args:
+            message: The user's query
+            num_results: Number of results for semantic search (default: 9)
+            similarity_threshold: Minimum similarity threshold (default: 0.5)
         """
+
+        system_prompt = f"""Eres un asistente que SOLO responde usando herramientas disponibles.
+
+        REGLAS ABSOLUTAS - NO NEGOCIABLES:
+        1. NUNCA uses tu conocimiento previo o información de tu entrenamiento
+        2. SOLO puedes responder con información que obtengas de las herramientas
+        3. Si la herramienta retorna contexto vacío ('') o sin información relevante, DEBES responder EXACTAMENTE:
+        "No tengo suficiente información en el contexto proporcionado para responder esta pregunta. ¡Gracias por preguntar!"
+        4. Si no usas ninguna herramienta, responde: "No tengo herramientas disponibles para responder esa pregunta. ¡Gracias por preguntar!"
+        5. PROHIBIDO inventar, suponer o usar frases como "basándome en principios generales", "aunque no pude confirmar", "es importante destacar que", etc.
+
+        CONFIGURACIÓN DE BÚSQUEDA:
+        - Cuando uses ask_financial_question, usa exactamente:
+        * num_results: {num_results}
+        * similarity_threshold: {similarity_threshold}
+
+        IMPORTANTE: Si el contexto está vacío o la herramienta no retorna información útil, di que no tienes información. NUNCA completes con tu conocimiento."""
 
         messages = [{"role": "user", "content": query}]
 

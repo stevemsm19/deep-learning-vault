@@ -2,7 +2,9 @@ from pydantic import BaseModel
 
 
 class ChatRequest(BaseModel):
-    message: str
+    query: str
+    num_results: int
+    similarity_threshold: float
 
 
 class ChatResponse(BaseModel):

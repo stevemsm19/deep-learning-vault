@@ -6,5 +6,9 @@ class MCPChatClient(IChatClient):
     def __init__(self, mcp_client: MCPClient) -> None:
         self.mcp_client = mcp_client
 
-    async def process_query(self, message: str) -> str:
-        return await self.mcp_client.process_query(message)
+    async def process_query(
+        self, query: str, num_results: int, similarity_threshold: float
+    ) -> str:
+        return await self.mcp_client.process_query(
+            query, num_results, similarity_threshold
+        )

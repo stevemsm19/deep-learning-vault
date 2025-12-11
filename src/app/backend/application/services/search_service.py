@@ -12,7 +12,7 @@ class SearchService:
     async def search_and_answer(self, request: SearchRequest) -> SearchResponse:
         try:
             context_entities = await self.vector_store_repository.search_similar(
-                request.question,
+                request.query,
                 request.num_results,
                 request.similarity_threshold,
             )

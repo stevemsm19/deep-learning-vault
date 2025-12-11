@@ -9,18 +9,18 @@ router = APIRouter()
 
 
 @router.post("/semantic-search")
-async def ask_question(
+async def semantic_search(
     request: SearchRequest,
     search_service: SearchService = Depends(get_search_service),
 ) -> SearchResponse:
 
-    request_dto = SearchRequest(
-        question=request.question,
+    request = SearchRequest(
+        query=request.query,
         num_results=request.num_results,
         similarity_threshold=request.similarity_threshold,
     )
 
-    result = await search_service.search_and_answer(request_dto)
+    result = await search_service.search_and_answer(request)
 
     return SearchResponse(
         context=result.context,
