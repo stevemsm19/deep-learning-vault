@@ -40,7 +40,7 @@ typst-compile: ## Compile the csds-353-vault typst file
 	@typst c documentation/csds-353-vault.typ
 
 run-backend: ## Run the FastAPI backend
-	@uvicorn src.app.backend.main:app --reload
+	@uvicorn src.app.backend.main:app --port=8001 --reload
 
 check-ci: ## Check the pipeline process
 	@echo -e "$(YELLOW)Checking black --check command....$(NC)"
