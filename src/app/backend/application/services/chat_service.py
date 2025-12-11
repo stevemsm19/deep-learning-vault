@@ -1,10 +1,9 @@
-from app.mcp.mcp_client.client import MCPClient
+from app.backend.domain.interfaces.chat_interface import IChatClient
 
 
 class ChatService:
-    def __init__(self, mcp_client: MCPClient) -> None:
-        self.mcp_client = mcp_client
+    def __init__(self, chat_client: IChatClient) -> None:
+        self.chat_client = chat_client
 
     async def process_message(self, message: str) -> str:
-        reply: str = await self.mcp_client.process_query(message)
-        return reply
+        return await self.chat_client.process_query(message)

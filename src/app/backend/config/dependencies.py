@@ -2,7 +2,7 @@ from fastapi import HTTPException
 
 from app.backend.config.mcp import mcp_client
 
-from app.backend.application.services.impl.banknote_detection_service import (
+from app.backend.application.services.banknote_detection_service import (
     CashDetectionService,
 )
 from app.backend.infrastructure.yolo_detector import YoloService
