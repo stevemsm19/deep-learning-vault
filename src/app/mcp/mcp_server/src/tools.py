@@ -1,6 +1,6 @@
 import httpx
 
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
 from mcp.server.fastmcp import FastMCP
 from logger import setup_logger
 
@@ -10,7 +10,10 @@ logger = setup_logger()
 def register_tools(mcp: FastMCP) -> None:
     @mcp.tool()
     async def ask_financial_query(
-        query: str, num_results: int, similarity_threshold: float
+        query: str,
+        num_results: int,
+        similarity_threshold: float,
+        document_names: Optional[List[str]] = None,
     ) -> Dict[str, Any]:
         logger.info("ask_financial_query query=%r", query)
 
@@ -21,6 +24,9 @@ def register_tools(mcp: FastMCP) -> None:
             "num_results": num_results,
             "similarity_threshold": similarity_threshold,
         }
+
+        if document_names:
+            payload["document_names"] = document_names
 
         try:
             async with httpx.AsyncClient(timeout=20.0) as client:
@@ -40,10 +46,12 @@ def register_tools(mcp: FastMCP) -> None:
 
             data = response.json()
 
-            logger.info("response=%r", data.get("context", ""))
+            contents = [entity["content"] for entity in data["results"]]
+
+            logger.info("total_results=%d", data["total_results"])
 
             return {
-                "context": data.get("context", ""),
+                "context": contents,
                 "raw_response": data,
             }
 

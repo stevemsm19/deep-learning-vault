@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from contextlib import AsyncExitStack
 
 from mcp import ClientSession, StdioServerParameters
@@ -60,15 +60,32 @@ class MCPClient:
         print("\nConnected to server with tools:", [tool.name for tool in tools])
 
     async def process_query(
-        self, query: str, num_results: int, similarity_threshold: float
+        self,
+        query: str,
+        num_results: int,
+        similarity_threshold: float,
+        document_names: Optional[List[str]] = None,
     ) -> str:
         """Process a query using Claude and available tools
 
         Args:
-            message: The user's query
-            num_results: Number of results for semantic search (default: 9)
-            similarity_threshold: Minimum similarity threshold (default: 0.5)
+            query: The user's query
+            num_results: Number of results for semantic search
+            similarity_threshold: Minimum similarity threshold
+            document_names: Optional document name to filter results
         """
+
+        search_config = f"""CONFIGURACIÓN DE BÚSQUEDA:
+        - Cuando uses ask_financial_question, usa exactamente:
+        * num_results: {num_results}
+        * similarity_threshold: {similarity_threshold}"""
+
+        if document_names:
+            search_config += f"""
+        * document_names: "{document_names}" (IMPORTANTE: incluye este parámetro)"""
+        else:
+            search_config += """
+        * NO incluyas el parámetro document_names"""
 
         system_prompt = f"""Eres un asistente que SOLO responde usando herramientas disponibles.
 
@@ -80,10 +97,7 @@ class MCPClient:
         4. Si no usas ninguna herramienta, responde: "No tengo herramientas disponibles para responder esa pregunta. ¡Gracias por preguntar!"
         5. PROHIBIDO inventar, suponer o usar frases como "basándome en principios generales", "aunque no pude confirmar", "es importante destacar que", etc.
 
-        CONFIGURACIÓN DE BÚSQUEDA:
-        - Cuando uses ask_financial_question, usa exactamente:
-        * num_results: {num_results}
-        * similarity_threshold: {similarity_threshold}
+        {search_config}
 
         IMPORTANTE: Si el contexto está vacío o la herramienta no retorna información útil, di que no tienes información. NUNCA completes con tu conocimiento."""
 
