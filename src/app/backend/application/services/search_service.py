@@ -1,8 +1,14 @@
+from typing import List
 from app.backend.domain.repositories.vector_store_repository import (
     IVectorStore,
 )
 
-from app.backend.application.schemas.search import SearchRequest, SearchResponse
+from app.backend.application.schemas.search import (
+    DocumentMetadata,
+    SearchRequest,
+    SearchResponse,
+    SearchResult,
+)
 
 
 class SearchService:
@@ -17,18 +23,35 @@ class SearchService:
                 request.similarity_threshold,
             )
 
-            context_responses = []
-            for entity in context_entities:
+            if request.document_name:
+                filtered_entities = [
+                    e
+                    for e in context_entities
+                    if (e.metadata or {}).get("source") == request.document_name
+                ]
+            else:
+                filtered_entities = context_entities
+
+            context_responses: List[SearchResult] = []
+            for entity in filtered_entities:
                 context_responses.append(
-                    {
-                        "content": entity.content,
-                        "metadata": entity.metadata,
-                    }
+                    SearchResult(
+                        content=entity.content,
+                        metadata=DocumentMetadata(
+                            source=entity.metadata.get("source"),
+                            page=entity.metadata.get("page"),
+                            score=entity.metadata.get("score"),
+                        ),
+                    )
                 )
 
-            context = "\n\n".join([entity.content for entity in context_entities])
+            context = "\n\n".join([entity.content for entity in filtered_entities])
 
-            return SearchResponse(context=context)
+            return SearchResponse(
+                query=request.query,
+                total_results=len(filtered_entities),
+                results=context_responses,
+            )
 
         except Exception as e:
             raise Exception(f"Error searching documents: {str(e)}")
