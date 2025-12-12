@@ -24,14 +24,25 @@ class ChromaRepository(IVectorStore):
         return document_ids
 
     async def search_similar(
-        self, query: str, num_results: int, similarity_threshold: float
+        self,
+        query: str,
+        num_results: int,
+        similarity_threshold: float,
+        document_names: List[str] = None,
     ) -> List[DocumentEntity]:
 
-        results = self.vector_store.similarity_search_with_score(query, num_results)
+        filter_query = None
+
+        if document_names:
+            filter_query = {"source": {"$in": document_names}}
+
+        results = self.vector_store.similarity_search_with_score(
+            query, k=num_results, filter=filter_query
+        )
 
         entities: List[DocumentEntity] = []
         for doc, score in results:
-            if score <= similarity_threshold:
+            if score >= similarity_threshold:
 
                 entity = DocumentEntity(
                     content=doc.page_content, metadata={**doc.metadata, "score": score}

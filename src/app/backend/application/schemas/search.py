@@ -6,7 +6,7 @@ class SearchRequest(BaseModel):
     query: str
     num_results: int
     similarity_threshold: float
-    document_name: Optional[str] = None
+    document_names: Optional[List[str]] = None
 
 
 class DocumentMetadata(BaseModel):

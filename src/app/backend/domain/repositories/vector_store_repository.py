@@ -10,7 +10,11 @@ class IVectorStore(ABC):
 
     @abstractmethod
     async def search_similar(
-        self, query: str, num_results: int, similarity_threshold: float
+        self,
+        query: str,
+        num_results: int,
+        similarity_threshold: float,
+        document_names: List[str] = None,
     ) -> List[DocumentEntity]:
         pass
 

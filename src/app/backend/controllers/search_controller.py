@@ -18,10 +18,10 @@ async def semantic_search(
         query=request.query,
         num_results=request.num_results,
         similarity_threshold=request.similarity_threshold,
-        document_name=request.document_name,
+        document_names=request.document_names,
     )
 
-    result = await search_service.search_and_answer(request)
+    result = await search_service.search(request)
 
     return SearchResponse(
         query=result.query, total_results=result.total_results, results=result.results
