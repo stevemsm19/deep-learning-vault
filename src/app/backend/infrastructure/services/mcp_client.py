@@ -7,8 +7,12 @@ class MCPChatClient(IChatClient):
         self.mcp_client = mcp_client
 
     async def process_query(
-        self, query: str, num_results: int, similarity_threshold: float
+        self,
+        query: str,
+        num_results: int,
+        similarity_threshold: float,
+        document_names: str | None = None,
     ) -> str:
         return await self.mcp_client.process_query(
-            query, num_results, similarity_threshold
+            query, num_results, similarity_threshold, document_names
         )
