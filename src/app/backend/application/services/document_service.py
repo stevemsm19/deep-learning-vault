@@ -41,7 +41,9 @@ class DocumentService:
             await self.vector_store_repository.add_document(chunks)
 
             return AddDocumentsResponse(
-                total_pages=len(documents), total_chunks=len(chunks)
+                filenames=[dto.filename for dto in file],
+                total_pages=len(documents),
+                total_chunks=len(chunks),
             )
         except Exception as e:
             raise Exception(f"Error adding documents: {str(e)}")

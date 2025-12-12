@@ -26,8 +26,10 @@ async def add_document(
             DocumentFileRequest(filename=f.filename, content=await f.read())
         )
 
-    result_dto = await document_service.add_document_from_uploads(document_files)
+    result = await document_service.add_document_from_uploads(document_files)
 
     return AddDocumentsResponse(
-        total_pages=result_dto.total_pages, total_chunks=result_dto.total_chunks
+        filenames=result.filenames,
+        total_pages=result.total_pages,
+        total_chunks=result.total_chunks,
     )

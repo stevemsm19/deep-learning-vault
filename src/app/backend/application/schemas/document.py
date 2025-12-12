@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel
 
 
@@ -7,5 +8,6 @@ class DocumentFileRequest(BaseModel):
 
 
 class AddDocumentsResponse(BaseModel):
+    filenames: List[str]
     total_pages: int
     total_chunks: int
