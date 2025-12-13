@@ -13,7 +13,7 @@ def register_tools(mcp: FastMCP) -> None:
         query: str,
         num_results: int,
         similarity_threshold: float,
-        document_names: Optional[List[str]] = None,
+        documents_name: Optional[List[str]] = None,
     ) -> Dict[str, Any]:
         logger.info("ask_financial_query query=%r", query)
 
@@ -25,8 +25,8 @@ def register_tools(mcp: FastMCP) -> None:
             "similarity_threshold": similarity_threshold,
         }
 
-        if document_names:
-            payload["document_names"] = document_names
+        if documents_name:
+            payload["documents_name"] = documents_name
 
         try:
             async with httpx.AsyncClient(timeout=20.0) as client:
@@ -68,5 +68,5 @@ def register_tools(mcp: FastMCP) -> None:
             }
 
         except Exception as e:
-            logger.exception("Error while calling legal API")
+            logger.exception("Error while calling financial API")
             return {"error": str(e)}
