@@ -1,5 +1,4 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pathlib import Path
 
 
 class Settings(BaseSettings):
@@ -9,8 +8,6 @@ class Settings(BaseSettings):
     embedding_model: str
     collection_name: str
     chroma_host: str
-    api_host: str
-    api_port: int
 
     model_config = SettingsConfigDict(env_file=".env")
 

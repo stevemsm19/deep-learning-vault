@@ -8,10 +8,12 @@ from anthropic import Anthropic
 from dotenv import load_dotenv
 from pathlib import Path
 
+from app.mcp.mcp_client.prompts import build_system_prompt
+
 load_dotenv()  # load environment variables from .env
 
 # Claude model constant
-ANTHROPIC_MODEL = "claude-3-5-haiku-20241022"
+ANTHROPIC_MODEL = "claude-3-haiku-20240307"
 
 
 class MCPClient:
@@ -64,7 +66,7 @@ class MCPClient:
         query: str,
         num_results: int,
         similarity_threshold: float,
-        document_names: Optional[List[str]] = None,
+        documents_name: Optional[List[str]] = None,
     ) -> str:
         """Process a query using Claude and available tools
 
@@ -72,47 +74,15 @@ class MCPClient:
             query: The user's query
             num_results: Number of results for semantic search
             similarity_threshold: Minimum similarity threshold
-            document_names: Optional document name to filter results
+            documents_name: Optional document name to filter results
         """
 
-        search_config = f"""CONFIGURACIÓN DE BÚSQUEDA:
-        - Cuando uses ask_legal_question, usa exactamente:
-        * num_results: {num_results}
-        * similarity_threshold: {similarity_threshold}"""
-
-        if document_names:
-            search_config += f"""
-        * document_names: "{document_names}" (IMPORTANTE: incluye este parámetro)"""
-        else:
-            search_config += """
-        * NO incluyas el parámetro document_names"""
-
-        system_prompt = f"""Eres un asistente que SOLO responde usando herramientas disponibles.
-
-        REGLAS ABSOLUTAS - NO NEGOCIABLES:
-        1. NUNCA uses tu conocimiento previo o información de tu entrenamiento
-        2. SOLO puedes responder con información que obtengas de las herramientas
-        3. Si la herramienta retorna contexto vacío ('') o sin información relevante, DEBES responder EXACTAMENTE:
-        "No tengo suficiente información en el contexto proporcionado para responder esta pregunta. ¡Gracias por preguntar!"
-        4. Si no usas ninguna herramienta, responde: "No tengo herramientas disponibles para responder esa pregunta. ¡Gracias por preguntar!"
-        5. PROHIBIDO inventar, suponer o usar frases como "basándome en principios generales", "aunque no pude confirmar", "es importante destacar que", etc.
-
-        {search_config}
-        FORMATO DE RESPUESTA CON FUENTES:
-        - Cuando la herramienta retorne información con fuentes ('sources'), DEBES terminar tu respuesta así:
-
-        [Tu respuesta basada en el contexto]
-
-        Recursos en los que me he basado para responderte:
-        - [Nombre del documento] (Página X)
-        - [Nombre del documento] (Página Y)
-
-        ¡Gracias por preguntar!
-
-        - Lista TODAS las fuentes que te proporcione la herramienta sin la extensión del archivo (.pdf, .txt, etc.)
-        - Mantén el formato exacto de nombre de documento
-
-        IMPORTANTE: Si el contexto está vacío o la herramienta no retorna información útil, di que no tienes información. NUNCA completes con tu conocimiento."""
+        system_prompt = build_system_prompt(
+            query=query,
+            num_results=num_results,
+            similarity_threshold=similarity_threshold,
+            documents_name=documents_name,
+        )
 
         messages = [{"role": "user", "content": query}]
 
