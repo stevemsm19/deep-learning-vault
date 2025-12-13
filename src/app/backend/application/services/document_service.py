@@ -47,3 +47,36 @@ class DocumentService:
             )
         except Exception as e:
             raise Exception(f"Error adding documents: {str(e)}")
+
+    async def get_document_names(self) -> List[str]:
+        """Return unique document source names as stored in the vector store metadata."""
+        try:
+            data = await self.vector_store_repository.get_embeddings()
+            metadatas = data.get("metadatas", [])
+
+            names = []
+            seen = set()
+            for md in metadatas:
+
+                source = md.get("source")
+                if source and source not in seen:
+                    seen.add(source)
+                    names.append(source)
+
+            return names
+        except Exception as e:
+            raise Exception(f"Error getting document names: {str(e)}")
+
+    async def get_document_names(self) -> List[str]:
+        try:
+            data = await self.vector_store_repository.get_sources()
+            names = []
+            seen = set()
+            for name in data:
+                if name and name not in seen:
+                    seen.add(name)
+                    names.append(name)
+
+            return names
+        except Exception as e:
+            raise Exception(f"Error getting documents names: {str(e)}")

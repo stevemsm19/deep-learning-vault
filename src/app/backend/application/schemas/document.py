@@ -11,3 +11,7 @@ class AddDocumentsResponse(BaseModel):
     filenames: List[str]
     total_pages: int
     total_chunks: int
+
+
+class DocumentNamesResponse(BaseModel):
+    names: List[str]

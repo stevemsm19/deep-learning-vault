@@ -21,3 +21,7 @@ class IVectorStore(ABC):
     @abstractmethod
     async def get_embeddings(self) -> Dict[str, List[Any]]:
         pass
+
+    @abstractmethod
+    async def get_sources(self) -> List[str]:
+        pass

@@ -61,3 +61,7 @@ class ChromaRepository(IVectorStore):
             "embeddings": embeddings,
             "metadatas": metadatas,
         }
+
+    async def get_sources(self) -> List[str]:
+        data = self.vector_store.get(include=["metadatas"])
+        return [m.get("source") for m in data["metadatas"]]

@@ -5,6 +5,7 @@ from app.backend.application.services.document_service import DocumentService
 from app.backend.application.schemas.document import (
     DocumentFileRequest,
     AddDocumentsResponse,
+    DocumentNamesResponse,
 )
 
 from app.backend.config.dependencies import get_document_service
@@ -33,3 +34,11 @@ async def add_document(
         total_pages=result.total_pages,
         total_chunks=result.total_chunks,
     )
+
+
+@router.get("/documents/names", response_model=DocumentNamesResponse)
+async def get_document_names(
+    document_service: DocumentService = Depends(get_document_service),
+) -> DocumentNamesResponse:
+    names = await document_service.get_document_names()
+    return DocumentNamesResponse(names=names)
