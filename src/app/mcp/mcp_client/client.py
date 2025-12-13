@@ -76,7 +76,7 @@ class MCPClient:
         """
 
         search_config = f"""CONFIGURACIÓN DE BÚSQUEDA:
-        - Cuando uses ask_financial_question, usa exactamente:
+        - Cuando uses ask_legal_question, usa exactamente:
         * num_results: {num_results}
         * similarity_threshold: {similarity_threshold}"""
 
@@ -98,6 +98,19 @@ class MCPClient:
         5. PROHIBIDO inventar, suponer o usar frases como "basándome en principios generales", "aunque no pude confirmar", "es importante destacar que", etc.
 
         {search_config}
+        FORMATO DE RESPUESTA CON FUENTES:
+        - Cuando la herramienta retorne información con fuentes ('sources'), DEBES terminar tu respuesta así:
+
+        [Tu respuesta basada en el contexto]
+
+        Recursos en los que me he basado para responderte:
+        - [Nombre del documento] (Página X)
+        - [Nombre del documento] (Página Y)
+
+        ¡Gracias por preguntar!
+
+        - Lista TODAS las fuentes que te proporcione la herramienta sin la extensión del archivo (.pdf, .txt, etc.)
+        - Mantén el formato exacto de nombre de documento
 
         IMPORTANTE: Si el contexto está vacío o la herramienta no retorna información útil, di que no tienes información. NUNCA completes con tu conocimiento."""
 

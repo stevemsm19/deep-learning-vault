@@ -48,10 +48,22 @@ def register_tools(mcp: FastMCP) -> None:
 
             contents = [entity["content"] for entity in data["results"]]
 
+            sources = []
+            seen_sources = set()
+            for entity in data["results"]:
+                source = entity["metadata"]["source"]
+                page = entity["metadata"]["page"]
+                source_key = f"{source}-{page}"
+
+                if source_key not in seen_sources:
+                    sources.append({"source": source, "page": page})
+                    seen_sources.add(source_key)
+
             logger.info("total_results=%d", data["total_results"])
 
             return {
-                "context": contents,
+                "context": "\n\n".join(contents),
+                "sources": sources,
                 "raw_response": data,
             }
 
