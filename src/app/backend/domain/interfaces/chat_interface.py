@@ -8,6 +8,6 @@ class IChatClient(ABC):
         query: str,
         num_results: int,
         similarity_threshold: float,
-        document_names: str | None = None,
+        documents_name: str | None = None,
     ) -> str:
         pass

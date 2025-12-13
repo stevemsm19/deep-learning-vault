@@ -11,5 +11,5 @@ class ChatService:
             query=request.query,
             num_results=request.num_results,
             similarity_threshold=request.similarity_threshold,
-            document_names=request.document_names,
+            documents_name=request.documents_name,
         )

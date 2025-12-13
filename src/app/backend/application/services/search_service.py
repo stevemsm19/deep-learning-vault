@@ -21,7 +21,7 @@ class SearchService:
                 request.query,
                 request.num_results,
                 request.similarity_threshold,
-                request.document_names,
+                request.documents_name,
             )
 
             context_responses: List[SearchResult] = []

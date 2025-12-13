@@ -6,7 +6,7 @@ class ChatRequest(BaseModel):
     query: str
     num_results: int
     similarity_threshold: float
-    document_names: Optional[List[str]] = None
+    documents_name: Optional[List[str]] = None
 
 
 class ChatResponse(BaseModel):
