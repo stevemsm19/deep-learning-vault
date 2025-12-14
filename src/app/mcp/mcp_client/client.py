@@ -77,7 +77,6 @@ class MCPClient:
             similarity_threshold: Minimum similarity threshold
             documents_name: Optional document name to filter results
         """
-
         system_prompt = build_system_prompt(
             query=query,
             num_results=num_results,
