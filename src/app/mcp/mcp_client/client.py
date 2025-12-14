@@ -67,6 +67,7 @@ class MCPClient:
         num_results: int,
         similarity_threshold: float,
         documents_name: Optional[List[str]] = None,
+        bills: Optional[List[str]] = None,
     ) -> str:
         """Process a query using Claude and available tools
 
@@ -82,6 +83,7 @@ class MCPClient:
             num_results=num_results,
             similarity_threshold=similarity_threshold,
             documents_name=documents_name,
+            bills=bills,
         )
 
         messages = [{"role": "user", "content": query}]

@@ -6,7 +6,34 @@ def build_system_prompt(
     num_results: int,
     similarity_threshold: float,
     documents_name: Optional[List[str]] = None,
+    bills: Optional[List[str]] = None,
 ) -> str:
+
+    bill_counting_section = ""
+    if bills:
+        bill_counting_section = f"""
+
+    El usuario ha proporcionado los siguientes billetes para contar: {bills}
+
+    IMPORTANTE:
+    1. Usa la herramienta count_bills con la lista de billetes proporcionada
+    2. La herramienta te devolverá un resumen con denominaciones ya formateadas
+
+    FORMATO DE RESPUESTA PARA CONTEO:
+
+    Tienes:
+    - X billete(s) de [denominación] = $[subtotal con formato de miles] COP
+    - Y billete(s) de [denominación] = $[subtotal con formato de miles] COP
+
+    **Total: Z billetes por un monto de $[total] COP**
+
+    REGLAS DE FORMATO:
+    - Las denominaciones deben mostrarse tal como vienen en "denomination" del resumen
+    - Los montos deben tener separadores de miles (comas)
+    - Usa el formato exacto mostrado arriba
+    - NO agregues texto adicional ni explicaciones extras
+
+    """
 
     search_section = f"""
     Parámetros base para ask_financial_query:
@@ -37,6 +64,9 @@ def build_system_prompt(
     """
 
     return f"""Eres un asistente financiero especializado que ayuda con consultas financieras y cálculos financieros.
+
+    PARA CONTEO DE BILLETES:
+    {bill_counting_section}
 
     PARA CONSULTAS FINANCIERAS:
     {search_section}
