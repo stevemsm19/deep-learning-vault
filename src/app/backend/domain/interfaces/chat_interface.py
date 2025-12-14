@@ -9,5 +9,6 @@ class IChatClient(ABC):
         num_results: int,
         similarity_threshold: float,
         documents_name: str | None = None,
+        bills: list | None = None,
     ) -> str:
         pass

@@ -37,8 +37,8 @@ async def add_document(
 
 
 @router.get("/documents/names", response_model=DocumentNamesResponse)
-async def get_document_names(
+async def get_documents_name(
     document_service: DocumentService = Depends(get_document_service),
 ) -> DocumentNamesResponse:
-    names = await document_service.get_document_names()
+    names = await document_service.get_documents_name()
     return DocumentNamesResponse(names=names)

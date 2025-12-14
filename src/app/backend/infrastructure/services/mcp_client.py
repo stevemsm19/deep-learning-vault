@@ -12,7 +12,8 @@ class MCPChatClient(IChatClient):
         num_results: int,
         similarity_threshold: float,
         documents_name: str | None = None,
+        bills: list | None = None,
     ) -> str:
         return await self.mcp_client.process_query(
-            query, num_results, similarity_threshold, documents_name
+            query, num_results, similarity_threshold, documents_name, bills
         )
