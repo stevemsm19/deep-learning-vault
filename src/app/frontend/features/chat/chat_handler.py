@@ -3,7 +3,7 @@ import streamlit as st
 
 from app.frontend.features.chat.agent_response_handler import generate_agent_response
 from app.frontend.features.chat.user_prompt_handler import add_user_prompt
-from app.frontend.services.api_service import get_document_names, upload_files
+from app.frontend.services.api_service import get_documents_name, upload_files
 from app.frontend.utils.constants.chat_suggestions import CHAT_SUGGESTIONS
 
 
@@ -59,7 +59,7 @@ def handle_chat_flow(
         if documents:
             documents_name = [doc.name for doc in documents]
 
-            existing_names, error = get_document_names()
+            existing_names, error = get_documents_name()
             if error:
                 st.error(error)
                 return

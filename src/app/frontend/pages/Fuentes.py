@@ -5,7 +5,7 @@ from app.frontend.utils.constants.sources import SOURCES
 current_page = "sources"
 st.session_state.last_page = current_page
 
-st.set_page_config(page_title="Fuentes")
+st.set_page_config(page_title="Fuentes", layout="wide")
 st.title("📚 Fuentes")
 st.write("Aquí puedes descargar los recursos utilizados por el sistema:")
 

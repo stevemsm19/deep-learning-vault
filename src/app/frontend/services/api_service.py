@@ -9,8 +9,9 @@ from typing import List, Optional, Tuple, Dict, Any
 from app.frontend.utils.constants.endpoints import (
     DOCUMENTS_ENDPOINT,
     EMBEDDING_ENDPOINT,
+    PREDICT_CASH_ENDPOINT,
     SEARCH_ENDPOINT,
-    GET_DOCUMENT_NAMES_ENDPOINT,
+    get_documents_name_ENDPOINT,
 )
 
 from app.frontend.config.settings import get_settings
@@ -53,26 +54,38 @@ def upload_files(
 
 def get_agent_response(
     prompt: str,
-    num_results: int,
-    similarity_threshold: float,
+    num_results: int = 9,
+    similarity_threshold: float = 0.5,
     documents_name: Optional[List[str]] = None,
+    bills: Optional[List[str]] = None,
 ) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
     payload = {
         "query": prompt,
         "num_results": num_results,
         "similarity_threshold": similarity_threshold,
-        "documents_name": documents_name,
     }
+
+    if documents_name is not None:
+        payload["documents_name"] = documents_name
+
+    if bills is not None:
+        payload["bills"] = bills
+
     with st.spinner("Pensando...", show_time=True):
         try:
             response = requests.post(url=f"{base_url}{SEARCH_ENDPOINT}", json=payload)
 
             if response.status_code != 200:
                 return None, f"Error {response.status_code}: {response.text}"
+
             return response.json(), None
 
-        except requests.exceptions.RequestException:
-            return None, "Error de conexión"
+        except requests.exceptions.Timeout:
+            return None, "Error: Tiempo de espera agotado"
+        except requests.exceptions.ConnectionError:
+            return None, "Error: No se pudo conectar con el servidor"
+        except requests.exceptions.RequestException as e:
+            return None, f"Error de conexión: {str(e)}"
 
 
 def get_embeddings() -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
@@ -90,11 +103,11 @@ def get_embeddings() -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         return None, "Error de conexión"
 
 
-def get_document_names() -> Tuple[Optional[List[str]], Optional[str]]:
+def get_documents_name() -> Tuple[Optional[List[str]], Optional[str]]:
     with st.spinner("Analizando documento(s)...", show_time=True):
         try:
             response = requests.get(
-                url=f"{base_url}{GET_DOCUMENT_NAMES_ENDPOINT}",
+                url=f"{base_url}{get_documents_name_ENDPOINT}",
             )
 
             if response.status_code != 200:
@@ -107,38 +120,44 @@ def get_document_names() -> Tuple[Optional[List[str]], Optional[str]]:
             return None, "Error de conexión"
 
 
-def firebase_sign_in(email: str, password: str) -> Tuple[Optional[str], Optional[str]]:
-    """Sign in using Firebase REST API and return idToken on success or an error string."""
-    api_key = SETTINGS.google_api_key
-    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"
-    payload = {"email": email, "password": password, "returnSecureToken": True}
-    try:
-        response = requests.post(url, json=payload)
-        if response.status_code != 200:
-            return None, f"{response.status_code}: {response.text}"
-        data = response.json()
-        id_token = data.get("idToken")
-        if not id_token:
-            return None, "No idToken returned from firebase"
-        return id_token, None
-    except requests.exceptions.RequestException as e:
-        return None, str(e)
+def detect_cash(
+    images: List[UploadedFile],
+    conf: float,
+    max_det: int,
+) -> Tuple[Optional[List[str]], Optional[str]]:
+    """
+    Envía imágenes al backend para detección y retorna solo las categorías detectadas.
+    """
+    if not images:
+        return None, "No se enviaron imágenes"
 
+    files_payload = [("files", (img.name, img.getvalue(), img.type)) for img in images]
 
-import requests
-from app.frontend.config.settings import get_settings
+    data_payload = {
+        "conf": conf,
+        "max_det": max_det,
+    }
 
-SETTINGS = get_settings()
+    with st.spinner("Detectando...", show_time=True):
+        try:
+            response = requests.post(
+                f"{base_url}{PREDICT_CASH_ENDPOINT}",
+                files=files_payload,
+                data=data_payload,
+            )
 
+            if response.status_code != 200:
+                return None, f"Error {response.status_code}: {response.text}"
 
-def check_session():
-    try:
-        res = requests.get(
-            f"http://{SETTINGS.api_host}:{SETTINGS.api_port}/api/v1/me",
-            cookies=requests.utils.dict_from_cookiejar(
-                requests.cookies.RequestsCookieJar()
-            ),
-        )
-        return res.status_code == 200
-    except:
-        return False
+            response_json = response.json()
+
+            categories: List[str] = []
+            for item in response_json:
+                for det in item.get("detections", []):
+                    category = det.get("category_name")
+                    categories.append(category)
+
+            return categories, None
+
+        except requests.exceptions.RequestException:
+            return None, "Error de conexión con el servicio de detección"

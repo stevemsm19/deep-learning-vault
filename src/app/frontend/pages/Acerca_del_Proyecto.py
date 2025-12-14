@@ -3,7 +3,7 @@ import streamlit as st
 current_page = "about_project"
 st.session_state.last_page = current_page
 
-st.set_page_config(page_title="Información")
+st.set_page_config(page_title="Información", layout="wide")
 st.title("ℹ️ Información")
 
 st.html(

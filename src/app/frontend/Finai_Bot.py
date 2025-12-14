@@ -16,7 +16,7 @@ def init_view_state() -> None:
 
 
 def setup_app() -> None:
-    st.set_page_config("Finai Bot")
+    st.set_page_config("Finai Bot", layout="wide")
     st.title("Finai Bot 💬")
 
     init_chat_state()
