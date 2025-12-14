@@ -1,5 +1,7 @@
+import os
 from typing import List
 from fastapi import HTTPException, UploadFile, File, APIRouter, Depends
+from fastapi.responses import FileResponse
 
 from app.backend.application.services.document_service import DocumentService
 from app.backend.application.schemas.document import (
@@ -11,6 +13,8 @@ from app.backend.application.schemas.document import (
 from app.backend.config.dependencies import get_document_service
 
 router = APIRouter()
+
+BASE_PATH = os.path.join(os.getcwd(), "src", "data", "temp_files")
 
 
 @router.post("/documents/add")
@@ -42,3 +46,23 @@ async def get_documents_name(
 ) -> DocumentNamesResponse:
     names = await document_service.get_documents_name()
     return DocumentNamesResponse(names=names)
+
+
+@router.get("/documents/download/{filename}")
+async def download_document(
+    filename: str,
+):
+    filename = os.path.basename(filename)
+    file_path = os.path.join(BASE_PATH, filename)
+
+    if not os.path.exists(file_path):
+        raise HTTPException(
+            status_code=404,
+            detail=f"El archivo '{filename}' no existe",
+        )
+
+    return FileResponse(
+        path=file_path,
+        filename=filename,
+        media_type="application/pdf",
+    )
