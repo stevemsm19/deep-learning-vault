@@ -11,7 +11,7 @@ from app.frontend.utils.constants.endpoints import (
     EMBEDDING_ENDPOINT,
     PREDICT_CASH_ENDPOINT,
     SEARCH_ENDPOINT,
-    get_documents_name_ENDPOINT,
+    DOCUMENTS_NAME_ENDPOINT,
 )
 
 from app.frontend.config.settings import get_settings
@@ -107,7 +107,7 @@ def get_documents_name() -> Tuple[Optional[List[str]], Optional[str]]:
     with st.spinner("Analizando documento(s)...", show_time=True):
         try:
             response = requests.get(
-                url=f"{base_url}{get_documents_name_ENDPOINT}",
+                url=f"{base_url}{DOCUMENTS_NAME_ENDPOINT}",
             )
 
             if response.status_code != 200:
@@ -125,9 +125,6 @@ def detect_cash(
     conf: float,
     max_det: int,
 ) -> Tuple[Optional[List[str]], Optional[str]]:
-    """
-    Envía imágenes al backend para detección y retorna solo las categorías detectadas.
-    """
     if not images:
         return None, "No se enviaron imágenes"
 

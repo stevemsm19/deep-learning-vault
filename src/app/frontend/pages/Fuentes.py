@@ -1,6 +1,9 @@
-import os
 import streamlit as st
-from app.frontend.utils.constants.sources import SOURCES
+
+from app.frontend.services.api_service import get_documents_name
+from app.frontend.config.settings import get_settings
+
+SETTINGS = get_settings()
 
 current_page = "sources"
 st.session_state.last_page = current_page
@@ -9,15 +12,21 @@ st.set_page_config(page_title="Fuentes", layout="wide")
 st.title("📚 Fuentes")
 st.write("Aquí puedes descargar los recursos utilizados por el sistema:")
 
-for name, filepath in SOURCES.items():
+DOWNLOAD_BASE_URL = (
+    f"https://{SETTINGS.api_host}:{SETTINGS.api_port}/api/v1/documents/download"
+)
 
-    if not os.path.exists(filepath):
-        st.warning(f"El archivo **{name}** no está disponible para descarga.")
-        continue
+documents_name, error = get_documents_name()
 
-    with open(filepath, "rb") as f:
-        file_bytes = f.read()
+if error:
+    st.error(error)
+    st.stop()
 
+if not documents_name:
+    st.info("No hay documentos disponibles para descargar.")
+    st.stop()
+
+for filename in documents_name:
     with st.container():
         st.html(
             f"""
@@ -27,16 +36,17 @@ for name, filepath in SOURCES.items():
                 border-radius: 8px;
                 background-color: #f8f9fa;
                 border: 1px solid #ddd;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             ">
-                <b>{name}</b>
+                <b>{filename}</b>
             </div>
             """
         )
 
-        st.download_button(
-            label=f"Descargar",
-            data=file_bytes,
-            file_name=os.path.basename(filepath),
-            mime="application/pdf",
+        st.link_button(
+            label="Descargar",
+            url=f"{DOWNLOAD_BASE_URL}/{filename}",
             icon=":material/download:",
         )

@@ -5,12 +5,14 @@ from app.frontend.services.api_service import detect_cash, get_agent_response
 from app.frontend.utils.messages import show_temporary_message
 
 st.set_page_config(
-    page_title="Detector de imágenes",
+    page_title="Detector de billetes",
     layout="wide",
 )
 
-st.title("Detector de imágenes")
-st.write("Sube una imagen y presiona **Detectar** para iniciar el análisis.")
+st.title("🖼️ Detector de Billetes Colombianos")
+st.write(
+    "Sube una imagen y presiona **Detectar** para que el sistema inicie la detección de billetes."
+)
 
 st.sidebar.header("Cargar imagen")
 
@@ -55,7 +57,7 @@ with st.sidebar.expander("Recomendaciones"):
 col1, col2 = st.columns([1, 1])
 
 with col1:
-    st.subheader("Imagen original")
+    st.subheader("Imagen adjunta")
 
     image = None
     if uploaded_file:
@@ -66,7 +68,7 @@ with col1:
             )
         else:
             image = Image.open(uploaded_file)
-            st.image(image, use_container_width=True)
+            st.image(image)
     else:
         st.info("👈 Sube una imagen desde el panel lateral")
 
@@ -74,7 +76,7 @@ with col2:
     st.subheader("Acciones")
 
     if uploaded_file:
-        detectar = st.button("🔍 Detectar", use_container_width=True)
+        detectar = st.button("🔍 Detectar")
 
         if detectar:
 

@@ -3,44 +3,20 @@ from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 from typing import List, Optional, Tuple
 
-from app.frontend.services.api_service import upload_files
-from app.frontend.utils.messages import show_temporary_message
-
 
 def upload_documents_sidebar() -> Optional[List[UploadedFile]]:
     with st.sidebar:
-        st.subheader("Tus documentos")
+        st.subheader("Cargar Documentos")
+        st.caption(
+            "Haz click en 'Browse files' para adjuntar archivos .pdf y/o .txt al chat"
+        )
         documents = st.file_uploader(
-            label="Haz click en 'Browse files' para subir tus archivos .pdf y/o .txt",
+            label="Selecciona los documentos",
             type=["pdf", "txt"],
             accept_multiple_files=True,
             key="documents",
         )
         return documents
-
-
-# def handle_upload_button(documents: Optional[List[UploadedFile]]) -> None:
-#     with st.sidebar:
-#         if st.button(
-#             "Cargar Documentos",
-#             type="primary",
-#             disabled=getattr(st.session_state, "is_processing_answer", False),
-#         ):
-#             if documents:
-#                 response_data, error = upload_files(documents)
-
-#                 if error:
-#                     show_temporary_message(error or "Error desconocido", "error")
-#                     return
-
-#                 show_temporary_message(
-#                     response_data or "Documentos cargados", "success"
-#                 )
-#             else:
-#                 show_temporary_message(
-#                     "Por favor, sube al menos un archivo válido antes de continuar.",
-#                     "error",
-#                 )
 
 
 def set_variables_sidebar() -> Tuple[int, float]:
@@ -78,5 +54,4 @@ def set_variables_sidebar() -> Tuple[int, float]:
 
 def handle_sidebar() -> Tuple[int, float]:
     upload_documents_sidebar()
-    # handle_upload_button(documents)
     return set_variables_sidebar()

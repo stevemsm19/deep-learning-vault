@@ -18,6 +18,10 @@ def init_view_state() -> None:
 def setup_app() -> None:
     st.set_page_config("Finai Bot", layout="wide")
     st.title("Finai Bot 💬")
+    st.write(
+        "Haz tus preguntas relacionadas a finanzas y recibe respuestas basadas en nuestros documentos y recursos. "
+        "Si lo deseas, también puedes subir tus propios documentos en 'Cargar Documentos'."
+    )
 
     init_chat_state()
     init_view_state()
