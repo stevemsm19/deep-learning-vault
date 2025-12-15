@@ -8,7 +8,74 @@
 	},
 	"item": [
 		{
-			"name": "Post data",
+			"name": "Cash Detection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "files",
+							"type": "file",
+							"src": [
+								"/home/steven/Imágenes/Capturas de pantalla/Captura desde 2025-12-08 22-12-05.png",
+								"/home/steven/Imágenes/Capturas de pantalla/Captura desde 2025-12-08 20-28-17.png",
+								"/home/steven/Imágenes/Capturas de pantalla/Captura desde 2025-12-08 20-28-13.png",
+								"/home/steven/Imágenes/Capturas de pantalla/Captura desde 2025-12-08 18-38-36.png",
+								"/home/steven/Imágenes/Capturas de pantalla/Captura desde 2025-12-08 18-37-54.png",
+								"/home/steven/Imágenes/Capturas de pantalla/Captura desde 2025-12-08 16-57-55.png",
+								"/home/steven/Imágenes/Capturas de pantalla/Captura desde 2025-12-08 16-57-35.png",
+								"/home/steven/Imágenes/Capturas de pantalla/Captura desde 2025-12-08 16-57-14.png",
+								"/home/steven/Imágenes/Capturas de pantalla/Captura desde 2025-12-08 16-56-13.png",
+								"/home/steven/Imágenes/Capturas de pantalla/Captura desde 2025-12-08 16-55-33.png"
+							]
+						},
+						{
+							"key": "conf",
+							"value": "0.8",
+							"type": "text"
+						},
+						{
+							"key": "max_det",
+							"value": "4",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/predict",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"predict"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Chat",
 			"event": [
 				{
 					"listen": "test",
@@ -30,7 +97,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"images_url\": [ \"https://firebasestorage.googleapis.com/v0/b/sofbook-d71c0.firebasestorage.app/o/images%2F071d4e92-a5e8-4c9a-a411-334cf9cc0853-letra-s.png?alt=media&token=73a3e892-561e-40ff-9003-24e34b35e24d\" ]\n}",
+					"raw": "{\n  \"query\": \"Un colombiano tiene derecho a tener una vivienda?\",\n  \"num_results\": 10,\n  \"similarity_threshold\": 0.1\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -38,17 +105,178 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/api/v1/predict",
+					"raw": "{{base_url}}/api/v1/chat",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"predict"
+						"chat"
 					]
 				},
 				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Search in All Documents",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": \"¿Un colombiano tiene derecho a tener una vivienda?\",\n  \"num_results\": 20,\n  \"similarity_threshold\": 0.3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/semantic-search",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"semantic-search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search in Specific Document",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": \"¿Un colombiano tiene derecho a tener una vivienda?\",\n  \"num_results\": 3,\n  \"similarity_threshold\": 0.8,\n  \"documents_name\": [\"Decreto 431-5 de 2024.pdf\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/semantic-search",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"semantic-search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Document",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "files",
+							"type": "file",
+							"src": [
+								"postman-cloud:///1f09a28c-6a42-41a0-ab94-13a2b4458f94",
+								"postman-cloud:///1f0a768c-7f42-48f0-b888-845b5059c61f"
+							]
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_bot}}/api/v1/documents/add",
+					"host": [
+						"{{url_bot}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"documents",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Embeddings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/embeddings?limit=2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"embeddings"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Document Names",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/documents/names",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"documents",
+						"names"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dowload Documents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/documents/download/cnbebc_2012_654.pdf",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"documents",
+						"download",
+						"cnbebc_2012_654.pdf"
+					]
+				}
 			},
 			"response": []
 		}
@@ -58,6 +286,7 @@
 			"listen": "prerequest",
 			"script": {
 				"type": "text/javascript",
+				"requests": {},
 				"exec": [
 					""
 				]
@@ -67,6 +296,7 @@
 			"listen": "test",
 			"script": {
 				"type": "text/javascript",
+				"requests": {},
 				"exec": [
 					""
 				]

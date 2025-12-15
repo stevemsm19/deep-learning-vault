@@ -14,7 +14,7 @@
         fill: white,
         size: 20pt,
         [
-          Este es un documento complementario que contiene notas y referencias para el curso *Deep Learning & Generative AI*.
+          This is a complementary document containing notes and references for the *Deep Learning & Generative AI* course.
         ],
       ),
     )
@@ -28,24 +28,27 @@
     #text(
       size: 28pt,
       [
-        1. Introducción
-        2. Problema Identificado
-        3. Solución Propuesta
-        4. ¿Como funciona?
-        5. Tecnologías
-        6. Demo
-        7. Beneficios y Conclusiones
+        1. Introduction and Context
+        2. Identified Problem
+        3. Project Goals and Scope
+        4. Proposed Solution
+        5. System Architecture
+        6. How the Assistant Works
+        7. Technologies
+        8. Demo
+        9. Challenges and Lessons Learned
+        10. Benefits, Conclusions, and Next Steps
       ]
     )
   ]
 )
 
 #layoutC(
-  title: "Introducción",
+  title: "Introduction and Context",
   content: [
 
     #v(50pt)
-    == ¿Sabías que?
+    == Did you know?
 
     #contentBox(
       fill: theme.primaryLightest,
@@ -53,16 +56,16 @@
         fill: white,
         size: 28pt,
         [
-          El Banco de la República reveló que para finales del 2024 el efectivo continúa liderando como el instrumento de pago más utilizado en los consumos diarios con el 77,8%,
+          The Central Bank of Colombia reported that by the end of 2024, cash is still the most used payment method for daily purchases, with 77.8%.
         ],
       ),
     )
-    #text(size: 15pt,fill: black,"https://www.larepublica.co/finanzas/casi-80-de-las-transacciones-que-se-hacen-en-colombia-aun-se-realizan-en-efectivo-4042298")
+    #text(size: 15pt, fill: black, "https://www.larepublica.co/finanzas/casi-80-de-las-transacciones-que-se-hacen-en-colombia-aun-se-realizan-en-efectivo-4042298")
   ]
 )
 
 #layoutC(
-  title: "Problema Identificado",
+  title: "Identified Problem",
   content: [
     #align(center + horizon,
     [
@@ -71,7 +74,7 @@
         weight: "bold",
         fill: theme.primary,
         [
-          Si hoy existen tantas billeteras digitales, bancos 100% móviles, medios de pago electrónicos, etc... ¿por qué la mayoría de las personas siguen prefiriendo el efectivo?
+          If there are digital wallets, mobile banks, and electronic payments, why do most people still prefer cash?
         ],
       )
     ])
@@ -85,10 +88,10 @@
       #text(
         size: 28pt,
         [
-          Uno de los principales motivos se debe a la falta de acceso y familiaridad tecnológica en algunos sectores de la población. Los problemas de conectividad en zonas rurales y la baja educación financiera impiden que muchos ciudadanos adopten estas alternativas con mayor frecuencia.
+          One main reason is the lack of access to technology and low digital skills in some parts of the population. Poor internet connection in rural areas and low financial education make it hard for many people to use digital services.
 
           #v(30pt)
-          Además, la desconfianza hacia los sistemas digitales y el temor a fraudes siguen siendo preocupaciones comunes entre las personas.
+          Also, many people do not trust digital systems and are afraid of fraud.
         ]
       )
     ])
@@ -101,12 +104,30 @@
     [
       #image("images/capstone/survey_example.png", width: 85%)
     ])
-    #text(size: 15pt,fill: black,"https://www.larepublica.co/finanzas/casi-80-de-las-transacciones-que-se-hacen-en-colombia-aun-se-realizan-en-efectivo-4042298")
+    #text(size: 15pt, fill: black, "https://www.larepublica.co/finanzas/casi-80-de-las-transacciones-que-se-hacen-en-colombia-aun-se-realizan-en-efectivo-4042298")
   ]
 )
 
 #layoutC(
-  title: "Solución Propuesta",
+  title: "Project Goals and Scope",
+  content: [
+    #align(horizon, [
+      #text(
+        size: 26pt,
+        [
+          - Build a generative assistant using the Model Context Protocol (MCP)
+          - Use pre-trained models and apply fine-tuning when needed
+          - Design clear prompts to control and guide model behavior
+          - Combine text understanding with object detection
+          - Focus on a real and practical financial use case
+        ]
+      )
+    ])
+  ]
+)
+
+#layoutC(
+  title: "Proposed Solution",
   content: [
     #align(center + horizon,
     [
@@ -120,16 +141,15 @@
     #align(horizon,
     [
       #text(size: 28pt)[
-        *Finai* es un asistente al que puedes preguntarle, de forma sencilla dudas comunes del mundo financiero con información de fuentes como la superintendencia financiera, fondo nacional del ahorro y blogs de los principales bancos de colombia.
+        *Finai* is an assistant where users can ask simple questions about finance. It uses information from sources like the Financial Superintendence of Colombia, the National Savings Fund, and blogs from major Colombian banks.
 
         #v(50pt)
 
-        Además, mientras aprendes a manejar mejor tus finanzas y a moverte en el mundo digital, Finai te ofrece una función poderosa, *"la detección de billetes colombianos"*.
+        While users learn how to manage their money and use digital tools, Finai also offers a powerful feature: *Colombian banknote detection*.
       ]
     ])
   ]
 )
-
 
 #layoutA(
   content: [
@@ -149,9 +169,18 @@
   ]
 )
 
+#layoutC(
+  title: "System Architecture",
+  content: [
+    #align(center + horizon,
+    [
+      #image("images/capstone/architecture.png", width: 110%)
+    ])
+  ]
+)
 
 #layoutC(
-  title: "Tecnologías",
+  title: "Technologies",
   content: [
     #align(horizon,
     [
@@ -165,7 +194,7 @@
         [
           #align(center)[#image("images/capstone/chroma_logo.png", width: 30%)]
           #align(center)[#image("images/capstone/streamlit_logo.png", width: 70%)]
-          #align(center)[#image("images/capstone/gemini_logo.png", width:75%)]
+          #align(center)[#image("images/capstone/claude_logo.png", width:50%)]
         ],
         [
           #align(center)[#image("images/capstone/colab_logo.png", width: 30%)]
@@ -179,7 +208,7 @@
 )
 
 #layoutC(
-  title: "¿Como funciona? - Chat",
+  title: "How the Assistant Works – Chat",
   content: [
     #align(center + horizon,
     [
@@ -189,7 +218,7 @@
 )
 
 #layoutC(
-  title: "¿Como funciona? - Detección",
+  title: "How the Assistant Works – Object Detection",
   content: [
     #align(center + horizon,
     [
@@ -200,8 +229,7 @@
 
 #layoutA(
   content: [
-    #align(center + horizon,
-    [
+    #align(center + horizon, [
       #text(
         size: 50pt,
         weight: "bold",
@@ -210,12 +238,42 @@
           Demo
         ],
       )
+      #v(10pt)
+      #link(
+        "https://deeplearning-oscar-munoz.streamlit.app/",
+        text(
+          size: 15pt,
+          fill: black,
+          [
+            https://deeplearning-oscar-munoz.streamlit.app/
+          ]
+        )
+      )
     ])
   ]
 )
 
 #layoutC(
-  title: "Beneficios y Conclusiones",
+  title: "Challenges and Lessons Learned",
+  content: [
+    #align(horizon, [
+      #text(
+        size: 26pt,
+        [
+          - First time working with the Model Context Protocol (MCP)
+          - Limited documentation and real examples
+          - Integrating MCP with a REST API
+          - Iterating on prompts to improve model answers
+          - Learning how and when to apply fine-tuning
+        ]
+      )
+    ])
+  ]
+)
+
+
+#layoutC(
+  title: "Benefits, Conclusions, and Next Steps",
   content: [
     #align(horizon, [
       #contentBox(
@@ -224,11 +282,11 @@
           size: 25pt,
           fill: white,
           [
-            Con Finai cualquier persona con un teléfono puede aprender conceptos básicos de finanzas de forma sencilla y accesible.
+            With Finai, anyone with a smartphone can learn basic finance concepts in a simple way.
 
             #v(15pt)
 
-            Además, su tecnología de identificación de billetes la puede convertir a futuro en una herramienta útil para enseñar a los niños las diferentes denominaciones, y puede integrarse con sistemas de text-to-speech para ayudar a personas con baja visión a reconocer billetes mediante audio.
+            Its banknote detection feature could be used in the future to teach children about money and could also help people with visual impairments by using text-to-speech.
           ]
         )
       )
@@ -244,11 +302,11 @@
         weight: "bold",
         fill: theme.primary,
         [
-          “Invertir en conocimiento paga el mejor interés”
+          “An investment in knowledge pays the best interest.”
         ],
       )
 
-      #text([(Benjamín Franklin)])
+      #text([(Benjamin Franklin)])
     ])
   ]
 )

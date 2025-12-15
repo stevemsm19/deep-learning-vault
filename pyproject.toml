@@ -32,7 +32,7 @@ dependencies = [
   "langchain_core==0.3.78",
   "langchain_text_splitters==0.3.11",
   "google-genai==1.55.0",
-  "ultralytics==8.3.237",
+  "ultralytics==8.3.238",
   "httpx>=0.28.1",
   "mcp[cli]>=1.23.1",
   "httpx>=0.28.1",
