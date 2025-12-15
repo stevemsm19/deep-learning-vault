@@ -39,8 +39,17 @@ typst-watch: ## Watch the csds-353-vault typst file and recompiles on changes
 typst-compile: ## Compile the csds-353-vault typst file
 	@typst c documentation/csds-353-vault.typ
 
-run-backend: ## Run the FastAPI backend
-	@uvicorn src.app.backend.main:app --port=8001 --reload
+backend: ## Run the FastAPI backend
+	@uvicorn src.app.backend.main:app --port=8001
+
+frontend: ## Run the Streamlit frontend
+	@streamlit run ./src/app/frontend/Finai_Bot.py
+
+docker: ## Run a local development environment with Docker Compose.
+	@docker compose up -d --build
+
+chroma: ## Run Chroma vector database with Docker
+	@docker run -d --name chromadb-local -p 8000:8000 -v chroma_data:/chroma/chroma chromadb/chroma
 
 check-ci: ## Check the pipeline process
 	@echo -e "$(YELLOW)Checking black --check command....$(NC)"
