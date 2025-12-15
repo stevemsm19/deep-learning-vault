@@ -74,8 +74,6 @@ def handle_chat_flow(
                     st.error(error or "Error al cargar documentos")
                     return
 
-        print("Documents names to use:", documents_name)
-
         generate_agent_response(
             user_prompt,
             num_results,

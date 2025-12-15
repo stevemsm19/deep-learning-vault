@@ -1,6 +1,6 @@
 import os
 
-BASE_PATH = os.path.join(os.getcwd(), "src/data/temp_files")
+BASE_PATH = os.path.join(os.getcwd(), "/src/data/files")
 print("BASE_PATH:", BASE_PATH)
 
 SOURCES = {

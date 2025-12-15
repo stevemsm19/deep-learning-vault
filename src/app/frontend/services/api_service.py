@@ -1,5 +1,4 @@
-import time
-import requests
+import requests  # type: ignore [import-untyped]
 import streamlit as st
 
 from streamlit.runtime.uploaded_file_manager import UploadedFile
@@ -14,10 +13,27 @@ from app.frontend.utils.constants.endpoints import (
     DOCUMENTS_NAME_ENDPOINT,
 )
 
-from app.frontend.config.settings import get_settings
+from app.frontend.config.settings import settings
 
-SETTINGS = get_settings()
-base_url = f"http://{SETTINGS.api_host}:{SETTINGS.api_port}/api/v1/"
+base_url = f"http://{settings.api_host}:8001/api/v1/"
+
+
+def upload_files_payload(
+    files_payload: List[Tuple[str, Tuple[str, Any, str]]],
+) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    try:
+        response = requests.post(
+            f"{base_url}{DOCUMENTS_ENDPOINT}",
+            files=files_payload,
+        )
+
+        if response.status_code != 200:
+            return None, f"Error {response.status_code}: {response.text}"
+
+        return response.json(), None
+
+    except requests.exceptions.RequestException:
+        return None, "Error de conexión"
 
 
 def upload_files(
@@ -26,30 +42,20 @@ def upload_files(
     if not documents:
         return None, "No hay documentos"
 
-    with st.spinner("Cargando documento(s)...", show_time=True):
-        file_payload = [("files", (doc.name, doc, doc.type)) for doc in documents]
+    with st.spinner("Cargando documento(s)..."):
+        payload = [("files", (doc.name, doc, doc.type)) for doc in documents]
 
-        try:
-            response = requests.post(
-                f"{base_url}{DOCUMENTS_ENDPOINT}",
-                files=file_payload,
-            )
-            if response.status_code != 200:
-                return None, f"Error {response.status_code}: {response.text}"
+        data, error = upload_files_payload(payload)
 
-            response_json = response.json()
-            total_pages = response_json.get("total_pages")
-            total_chunks = response_json.get("total_chunks")
-            total_documents = len(documents)
+        if error or data is None:
+            return None, error or "Respuesta inválida del servidor"
 
-            return (
-                f"Se han cargado {total_documents} documentos, con un total de {total_pages} páginas "
-                f"divididas en {total_chunks} chunks.",
-                None,
-            )
+        total_pages = data.get("total_pages", 0)
 
-        except requests.exceptions.RequestException:
-            return None, "Error de conexión"
+        return (
+            f"Se cargaron {len(documents)} documentos " f"({total_pages} páginas)",
+            None,
+        )
 
 
 def get_agent_response(

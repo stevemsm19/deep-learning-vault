@@ -109,6 +109,8 @@ with col2:
 
                 if error:
                     st.error(f"Error: {error}")
+                elif response is None:
+                    st.error("No se recibió respuesta del agente.")
                 else:
                     reply = response.get("reply", "No se recibió respuesta")
                     st.subheader("Resultados")
