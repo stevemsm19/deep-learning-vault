@@ -10,3 +10,6 @@ triton
 urllib3
 pandas-stubs
 langsmith
+google-ai-generativelanguage
+grpcio-status
+protobuf

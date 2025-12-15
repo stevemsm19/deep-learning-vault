@@ -244,7 +244,7 @@
         weight: "bold",
         fill: theme.primary,
         [
-          “Invertir en conocimiento paga el mejor interés”
+          “Invertir en conocimiento paga el mejor interés.”
         ],
       )
 

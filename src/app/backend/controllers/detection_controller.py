@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Form, UploadFile, File, Depends
 from typing import List
 
-from app.backend.application.schemas.schemas import DetectionResponse
-from app.backend.application.services.impl.banknote_detection_service import (
+from app.backend.application.schemas.detection import DetectionResponse
+from app.backend.application.services.banknote_detection_service import (
     CashDetectionService,
 )
 from app.backend.config.dependencies import get_detection_service
