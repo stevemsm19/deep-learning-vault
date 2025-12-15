@@ -1,0 +1,11 @@
+**/__pycache__
+**/*.pyc
+**/*.ipynb
+**/*.egg-info
+src/app/data
+src/app/lib
+src/app/docker-compose.yml
+.git
+.gitignore
+README.md
+.env
