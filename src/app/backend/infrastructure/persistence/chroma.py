@@ -28,7 +28,7 @@ class ChromaRepository(IVectorStore):
         query: str,
         num_results: int,
         similarity_threshold: float,
-        documents_name: List[str] = None,
+        documents_name: List[str] | None = None,
     ) -> List[DocumentEntity]:
 
         filter_query = None
@@ -37,7 +37,9 @@ class ChromaRepository(IVectorStore):
             filter_query = {"source": {"$in": documents_name}}
 
         results = self.vector_store.similarity_search_with_score(
-            query, k=num_results, filter=filter_query
+            query,
+            k=num_results,
+            filter=filter_query,  # type: ignore[arg-type]
         )
 
         entities: List[DocumentEntity] = []

@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Dict, List, Union
 
 from app.backend.domain.repositories.vector_store_repository import (
@@ -49,25 +50,6 @@ class DocumentService:
             raise Exception(f"Error adding documents: {str(e)}")
 
     async def get_documents_name(self) -> List[str]:
-        """Return unique document source names as stored in the vector store metadata."""
-        try:
-            data = await self.vector_store_repository.get_embeddings()
-            metadatas = data.get("metadatas", [])
-
-            names = []
-            seen = set()
-            for md in metadatas:
-
-                source = md.get("source")
-                if source and source not in seen:
-                    seen.add(source)
-                    names.append(source)
-
-            return names
-        except Exception as e:
-            raise Exception(f"Error getting document names: {str(e)}")
-
-    async def get_documents_name(self) -> List[str]:
         try:
             data = await self.vector_store_repository.get_sources()
             names = []
@@ -80,3 +62,39 @@ class DocumentService:
             return names
         except Exception as e:
             raise Exception(f"Error getting documents names: {str(e)}")
+
+
+async def load_initial_documents(
+    document_service: DocumentService,
+    files_dir: Path,
+) -> None:
+    existing_names = await document_service.get_documents_name()
+
+    if existing_names:
+        print(f"Documentos ya cargados ({len(existing_names)})")
+        return
+
+    if not files_dir.exists():
+        print("Carpeta de documentos iniciales no existe")
+        return
+
+    documents: List[DocumentFileRequest] = []
+
+    for file_path in files_dir.iterdir():
+        if file_path.is_file() and file_path.suffix.lower() == ".pdf":
+            documents.append(
+                DocumentFileRequest(
+                    filename=file_path.name,
+                    content=file_path.read_bytes(),
+                )
+            )
+
+    if not documents:
+        print("No hay documentos para cargar")
+        return
+
+    print(f"Cargando {len(documents)} documentos iniciales...")
+
+    await document_service.add_document_from_uploads(documents)
+
+    print("Documentos iniciales cargados correctamente")

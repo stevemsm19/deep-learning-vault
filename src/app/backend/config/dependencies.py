@@ -59,7 +59,7 @@ def get_vector_store() -> Chroma:
 def get_document_service() -> DocumentService:
     vector_store = get_vector_store()
 
-    document_loader_repository = DocumentLoaderRepository("src/data/temp_files")
+    document_loader_repository = DocumentLoaderRepository("/src/data/files")
     vector_store_repository = ChromaRepository(vector_store)
 
     text_splitter = RecursiveTextSplitter(

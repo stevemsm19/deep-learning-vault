@@ -14,7 +14,7 @@ from app.backend.config.dependencies import get_document_service
 
 router = APIRouter()
 
-BASE_PATH = os.path.join(os.getcwd(), "src", "data", "temp_files")
+BASE_PATH = os.path.join(os.getcwd(), "src", "data", "files")
 
 
 @router.post("/documents/add")
@@ -51,7 +51,7 @@ async def get_documents_name(
 @router.get("/documents/download/{filename}")
 async def download_document(
     filename: str,
-):
+) -> FileResponse:
     filename = os.path.basename(filename)
     file_path = os.path.join(BASE_PATH, filename)
 

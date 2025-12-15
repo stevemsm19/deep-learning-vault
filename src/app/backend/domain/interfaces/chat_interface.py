@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 
 class IChatClient(ABC):
@@ -8,7 +9,7 @@ class IChatClient(ABC):
         query: str,
         num_results: int,
         similarity_threshold: float,
-        documents_name: str | None = None,
-        bills: list | None = None,
+        documents_name: List[str] | None = None,
+        bills: List[str] | None = None,
     ) -> str:
         pass

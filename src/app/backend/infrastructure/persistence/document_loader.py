@@ -1,5 +1,5 @@
 import os
-import pymupdf
+import pymupdf  # type: ignore [import-untyped]
 
 from typing import Dict, List, Union, cast
 
@@ -43,8 +43,8 @@ class DocumentLoaderRepository(IDocumentLoader):
                     continue
 
                 relative_source = (
-                    file_path.split("temp_files/")[-1]
-                    if "temp_files/" in file_path
+                    file_path.split("files/")[-1]
+                    if "files/" in file_path
                     else file_path
                 )
 

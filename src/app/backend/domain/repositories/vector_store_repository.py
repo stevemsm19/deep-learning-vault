@@ -14,7 +14,7 @@ class IVectorStore(ABC):
         query: str,
         num_results: int,
         similarity_threshold: float,
-        documents_name: List[str] = None,
+        documents_name: List[str] | None = None,
     ) -> List[DocumentEntity]:
         pass
 

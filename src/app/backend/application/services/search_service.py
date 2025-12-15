@@ -30,9 +30,9 @@ class SearchService:
                     SearchResult(
                         content=entity.content,
                         metadata=DocumentMetadata(
-                            source=entity.metadata.get("source"),
-                            page=entity.metadata.get("page"),
-                            score=entity.metadata.get("score"),
+                            source=entity.metadata.get("source") or "",
+                            page=entity.metadata.get("page") or 0,
+                            score=entity.metadata.get("score") or None,
                         ),
                     )
                 )
